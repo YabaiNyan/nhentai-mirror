@@ -1,0 +1,23 @@
+{
+  "name": "nhentai-mirror",
+  "version": "1.0.0",
+  "description": "A nhentai mirror based on nhentai-js and express.js",
+  "main": "nhMirror.js",
+  "scripts": {
+    "test": "node nhMirror.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YabaiNyan/nhentai-mirror.git"
+  },
+  "author": "YabaiNyan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/YabaiNyan/nhentai-mirror/issues"
+  },
+  "homepage": "https://github.com/YabaiNyan/nhentai-mirror#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "nhentai-js": "^1.4.0"
+  }
+}
