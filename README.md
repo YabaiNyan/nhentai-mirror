@@ -14,5 +14,4 @@ Installation
 
 Usage
 =====
-Navigate to `(server)` on a browser of your choice (or `(server):(port)` if you specified a specific port in `.env
-`)
+Navigate to `(server)` on a browser of your choice (or `(server):(port)` if you specified a specific port in `.env`)
