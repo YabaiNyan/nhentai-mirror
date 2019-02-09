@@ -6,7 +6,7 @@ if (process.env.PORT != undefined) {
 }
 
 // import nhentai library
-var nhentai = require('nhentai-js')
+var nhentai = require('./nhentai.js')
 
 // require express
 var express = require('express')
