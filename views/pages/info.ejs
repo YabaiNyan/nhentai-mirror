@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-black">
+<head>
+    <% include ../partials/head.ejs %>
+    <% include ../partials/lozad.ejs %>
+    <% include ../partials/notosans.ejs %>
+    <% include ../partials/fontawesome.ejs %>
+    <% include ../partials/homecss.ejs %>
+    <title>nhentai-mirror</title>
+</head>
+<body>
+    <% include ../partials/navless.ejs %>
+    <div id="content">
+        <div class="container" id="bigcontainer">
+            <div id="cover">
+                <a href="/g/<%= bookId %>/1/">
+                    <img class="lozad" width="350" height="483" data-src="<%= mainThumbnail %>"><noscript><img src="<%= mainThumbnail %>" width="350" height="483" /></noscript>
+                </a>
+            </div>
+        
+                <div id="info-block">
+                    <div id="info">
+                        <h1><%= title %></h1>
+                        <h2><%= nativeTitle %></h2>
+                        <section id="tags">
+                            <div class="tag-container field-name ">
+                                Parodies:
+                                <% details.parodies.forEach(function(parody) { %>
+                                    <span class="tags"><a class="tag"><%= parody.tagName %> <span class="count"><%= parody.number %></span></a>
+                                <% }); %>
+                            </div>
+        
+                            <div class="tag-container field-name ">
+                                Characters:
+                                <% details.characters.forEach(function(character) { %>
+                                    <span class="tags"><a class="tag"><%= character.tagName %> <span class="count"><%= character.number %></span></a>
+                                <% }); %>
+                            </div>
+        
+                            <div class="tag-container field-name ">
+                                Tags:
+                                <% details.tags.forEach(function(tag) { %>
+                                    <span class="tags"><a class="tag"><%= tag.tagName %> <span class="count"><%= tag.number %></span></a>
+                                <% }); %>
+                            </div>
+        
+                            <div class="tag-container field-name ">
+                                Artists:
+                                <% details.artists.forEach(function(artist) { %>
+                                    <span class="tags"><a class="tag"><%= artist.tagName %> <span class="count"><%= artist.number %></span></a></span>
+                                <% }); %>
+                            </div>
+        
+                            <div class="tag-container field-name ">
+                                Groups:
+                                <% details.groups.forEach(function(group) { %>
+                                    <span class="tags"><a class="tag"><%= group.tagName %> <span class="count"><%= group.number %></span></a></span>
+                                <% }); %>
+                            </div>
+        
+                            <div class="tag-container field-name ">
+                                Languages:
+                                <% details.languages.forEach(function(language) { %>
+                                    <span class="tags"><a class="tag"><%= language.tagName %> <span class="count"><%= language.number %></span></a></span>
+                                <% }); %>
+                            </div>
+        
+                            <div class="tag-container field-name ">
+                                Categories:
+                                <% details.categories.forEach(function(category) { %>
+                                    <span class="tags"><a class="tag"><%= category.tagName %> <span class="count"><%= category.number %></span></a></span>
+                                <% }); %>
+                            </div>
+                        </section>
+                        <div><%= thumbnails.length %> pages</div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="container" id="thumbnail-container">
+                <% thumbnails.forEach(function(thumbnail, i) { %>
+                    <div class="thumb-container">
+                        <a class="gallerythumb" href="/g/<%= bookId %>/<%= i + 1 %>/" rel="nofollow">
+                            <img class="lozad" width="200" height="276" data-src="<%= thumbnail %>"><noscript><img src="<%= thumbnail %>" width="200" height="276" /></noscript>
+                        </a>
+                    </div>
+                <% }); %>
+            </div>
+            <% include ../partials/lozadinit.ejs %>
+        </div>
+    </div>
+</body>
+</html>

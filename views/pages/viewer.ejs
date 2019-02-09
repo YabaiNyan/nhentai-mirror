@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head.ejs %>
+    <% include ../partials/lozad.ejs %>
+    <% include ../partials/viewercss.ejs %>
+    <title><%= title %></title>
+</head>
+<body>
+    <% pages.forEach(function(page) { %>
+        <img class="lozad" data-src="<%= page %>">
+    <% }); %>
+    <% include ../partials/lozadinit.ejs %>
+</body>
+</html>

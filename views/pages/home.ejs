@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-black">
+<head>
+    <% include ../partials/head.ejs %>
+    <% include ../partials/lozad.ejs %>
+    <% include ../partials/notosans.ejs %>
+    <% include ../partials/fontawesome.ejs %>
+    <% include ../partials/homecss.ejs %>
+    <title>nhentai-mirror</title>
+</head>
+<body>
+    <% include ../partials/navless.ejs %>
+    <div id="content">
+        <div class="index-container container">
+            <% results.forEach(function(book) { %>
+                <div class="gallery">
+                    <a href="/i/<%= book.bookId %>/" class="cover" style="padding:0 0 <%= book.thumbnailAspectRatio %>% 0">
+                        <img class="lozad" data-src="<%= book.thumbnail %>">
+                        <div class="caption">
+                                <%= book.title %>
+                        </div>
+                    </a>
+                </div>
+            <% }); %>
+            <% include ../partials/lozadinit.ejs %>
+        </div>
+        <section class="pagination">
+            <% if(currentPage > 1){ %>
+                <a href="1" class="first"><i class="fa fa-chevron-left"></i><i class="fa fa-chevron-left"></i></a>
+                <a href="<%= prevPage %>" class="previous"><i class="fa fa-chevron-left"></i></a>
+            <% }; %>
+            <% pageSelectArr.forEach(function(page) { %>
+                <a href="<%= page.number %>" class="<%= page.class %>"><%= page.number %></a>
+            <% }); %>
+            <% if(currentPage < lastPage){ %>
+                <a href="<%= nextPage %>" class="next"><i class="fa fa-chevron-right"></i></a>
+                <a href="<%= lastPage %>" class="last"><i class="fa fa-chevron-right"></i><i class="fa fa-chevron-right"></i></a>
+            <% }; %>
+	    </section>
+    </div>
+</body>
+</html>

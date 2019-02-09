@@ -1,0 +1,21 @@
+<nav role="navigation">
+    <a class="logo" href="/">
+        <img src="https://static.nhentai.net/img/logo.650c98bbb08e.svg" alt="logo" width="46" height="30">
+    </a>
+    <script>
+        function search(e){
+            e.preventDefault();
+            window.location = "/s/" + encodeURI($('form').serializeArray()[0].value);
+        }
+    </script>
+    <form role="search" class="search" onsubmit="search(event)">
+        <input type="search" name="q" value="<%= queryRaw %>" autocapitalize="none" required=""><button type="submit" class="btn btn-primary btn-square">
+            <i class="fa fa-search fa-lg"></i>
+        </button>
+    </form>
+    <button type="button" class="btn btn-secondary btn-square" id="hamburger">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+    </button>
+</nav>

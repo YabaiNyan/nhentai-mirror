@@ -1,0 +1,74 @@
+<nav role="navigation">
+    <a class="logo" href="/">
+        <img src="https://static.nhentai.net/img/logo.650c98bbb08e.svg" alt="logo" width="46" height="30">
+    </a>
+    <script>
+        function search(e){
+            e.preventDefault();
+            window.location = "/s/" + encodeURI($('form').serializeArray()[0].value);
+        }
+    </script>
+    <form role="search" class="search" onsubmit="search(event)">
+        <input type="search" name="q" value="<%= queryRaw %>" autocapitalize="none" required=""><button type="submit" class="btn btn-primary btn-square">
+            <i class="fa fa-search fa-lg"></i>
+        </button>
+    </form>
+    <button type="button" class="btn btn-secondary btn-square" id="hamburger">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+    </button>
+    <div class="collapse">
+        <ul class="menu left">
+            <li class="desktop ">
+                <a href="/random/">Random</a>
+            </li>
+            <li class="desktop ">
+                <a href="/tags/">Tags</a>
+            </li>
+            <li class="desktop ">
+                <a href="/artists/">Artists</a>
+            </li>
+            <li class="desktop ">
+                <a href="/characters/">Characters</a>
+            </li>
+            <li class="desktop ">
+                <a href="/parodies/">Parodies</a>
+            </li>
+            <li class="desktop ">
+                <a href="/groups/">Groups</a>
+            </li>
+            <li class="desktop ">
+                <a href="/info/">Info</a>
+            </li>
+            <li class="dropdown">
+                <button class="btn btn-secondary btn-square" type="button" id="dropdown">
+                    <i class="fa fa-chevron-down"></i>
+                </button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="/random/">Random</a>
+                    </li>
+                    <li>
+                        <a href="/tags/">Tags</a>
+                    </li>
+                    <li>
+                        <a href="/artists/">Artists</a>
+                    </li>
+                    <li>
+                        <a href="/characters/">Characters</a>
+                    </li>
+                    <li>
+                        <a href="/parodies/">Parodies</a>
+                    </li>
+                    <li>
+                        <a href="/groups/">Groups</a>
+                    </li>
+                    <li>
+                        <a href="/info/">Info</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-black">
+<head>
+    <% include ../partials/head.ejs %>
+    <% include ../partials/lozad.ejs %>
+    <% include ../partials/notosans.ejs %>
+    <% include ../partials/fontawesome.ejs %>
+    <% include ../partials/homecss.ejs %>
+    <title>nhentai-mirror</title>
+</head>
+<body>
+    <% include ../partials/navless.ejs %>
+    <div id="content">
+        <% if(totalSearchResults > 0){ %>
+            <h2><%= totalSearchResults %> Results</h2>
+            <div class="sort">
+                <% if(sort == "popular"){ %>
+                    <a href="/s/<%= query %>/<%= currentPage %>/date">Date</a>
+                    <a href="/s/<%= query %>/<%= currentPage %>/popular" class="active">Popular</a>
+                <% } else {; %>
+                    <a href="/s/<%= query %>/<%= currentPage %>/date" class="active">Date</a>
+                    <a href="/s/<%= query %>/<%= currentPage %>/popular">Popular</a>
+                <% }; %>
+            </div>
+            <div class="index-container container">
+                <% results.forEach(function(book) { %>
+                    <div class="gallery">
+                        <a href="/i/<%= book.bookId %>/" class="cover" style="padding:0 0 <%= book.thumbnailAspectRatio %>% 0">
+                            <img class="lozad" data-src="<%= book.thumbnail %>">
+                            <div class="caption">
+                                    <%= book.title %>
+                            </div>
+                        </a>
+                    </div>
+                <% }); %>
+                <% include ../partials/lozadinit.ejs %>
+            </div>
+            <section class="pagination">
+                <% if(currentPage > 1){ %>
+                    <a href="/s/<%= query %>/1/<%= sort %>" class="first"><i class="fa fa-chevron-left"></i><i class="fa fa-chevron-left"></i></a>
+                    <a href="/s/<%= query %>/<%= prevPage %>/<%= sort %>" class="previous"><i class="fa fa-chevron-left"></i></a>
+                <% }; %>
+                <% pageSelectArr.forEach(function(page) { %>
+                    <a href="/s/<%= query %>/<%= page.number %>/<%= sort %>" class="<%= page.class %>"><%= page.number %></a>
+                <% }); %>
+                <% if(currentPage < lastPage){ %>
+                    <a href="/s/<%= query %>/<%= nextPage %>/<%= sort %>" class="next"><i class="fa fa-chevron-right"></i></a>
+                    <a href="/s/<%= query %>/<%= lastPage %>/<%= sort %>" class="last"><i class="fa fa-chevron-right"></i><i class="fa fa-chevron-right"></i></a>
+                <% }; %>
+            </section>
+        <% } else {; %>
+            <h2>No results found</h2>
+        <% }; %>
+    </div>
+</body>
+</html>
