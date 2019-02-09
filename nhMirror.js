@@ -144,7 +144,6 @@ var infoHandler = function(req, res) {
                     bookObj.details[key][i] = {tagName, number}
                 });
             }
-            console.log(bookObj)
             bookObj.queryRaw = ""
             bookObj.bookId = req.params.bookId
             bookObj.mainThumbnail = bookObj.thumbnails[0].replace().replace('1t.jpg', 'cover.jpg')
@@ -155,6 +154,24 @@ var infoHandler = function(req, res) {
             res.status(404)
                 .send("404 not found")
         })
+}
+
+// handle viewer page requests
+var viewerHandler = function(req, res) {
+    var bookId = req.params.bookId
+    if (!isNaN(bookId)) {
+        nhentai.getDoujin(bookId)
+            .then((nhObj) => {
+                res.render('pages/nvssviewer', nhObj);
+            })
+            .catch(() => {
+                res.status(404)
+                    .send("404 not found")
+            })
+    } else {
+        res.status(400)
+            .send("400 bad request")
+    }
 }
 
 
@@ -169,6 +186,10 @@ app.get('/s/:query/:page/:sort', searchHandler)
 
 // respond to info pages
 app.get('/i/:bookId', infoHandler)
+
+// respond to info pages
+app.get('/g/:bookId', viewerHandler)
+app.get('/g/:bookId/:page', viewerHandler)
 
 // start listening
 app.listen(port, () => console.log(`nhMirror.js listening on port ${port}!`))
