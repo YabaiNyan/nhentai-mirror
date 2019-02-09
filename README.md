@@ -1,7 +1,7 @@
 # nhentai-mirror
 A nhentai mirror based on nhentai-js and express.js
 
-### Note
+## Note
 THIS DOES NOT CACHE/SAVE ANY ACTUAL PAGES
 By mirror, it is meant that it proxys the requests to the server, which generates a new page that "mirrors" the real page.
 
