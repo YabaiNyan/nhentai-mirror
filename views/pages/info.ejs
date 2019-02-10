@@ -6,7 +6,8 @@
     <% include ../partials/notosans.ejs %>
     <% include ../partials/fontawesome.ejs %>
     <% include ../partials/homecss.ejs %>
-    <title>nhentai-mirror</title>
+    <% include ../partials/moment.ejs %>
+    <title><%= tabTitle %> » nhentai-mirror</title>
 </head>
 <body>
     <% include ../partials/navless.ejs %>
@@ -23,56 +24,25 @@
                         <h1><%= title %></h1>
                         <h2><%= nativeTitle %></h2>
                         <section id="tags">
-                            <div class="tag-container field-name ">
-                                Parodies:
-                                <% details.parodies.forEach(function(parody) { %>
-                                    <span class="tags"><a class="tag"><%= parody.tagName %> <span class="count"><%= parody.number %></span></a>
-                                <% }); %>
-                            </div>
-        
-                            <div class="tag-container field-name ">
-                                Characters:
-                                <% details.characters.forEach(function(character) { %>
-                                    <span class="tags"><a class="tag"><%= character.tagName %> <span class="count"><%= character.number %></span></a>
-                                <% }); %>
-                            </div>
-        
-                            <div class="tag-container field-name ">
-                                Tags:
-                                <% details.tags.forEach(function(tag) { %>
-                                    <span class="tags"><a class="tag"><%= tag.tagName %> <span class="count"><%= tag.number %></span></a>
-                                <% }); %>
-                            </div>
-        
-                            <div class="tag-container field-name ">
-                                Artists:
-                                <% details.artists.forEach(function(artist) { %>
-                                    <span class="tags"><a class="tag"><%= artist.tagName %> <span class="count"><%= artist.number %></span></a></span>
-                                <% }); %>
-                            </div>
-        
-                            <div class="tag-container field-name ">
-                                Groups:
-                                <% details.groups.forEach(function(group) { %>
-                                    <span class="tags"><a class="tag"><%= group.tagName %> <span class="count"><%= group.number %></span></a></span>
-                                <% }); %>
-                            </div>
-        
-                            <div class="tag-container field-name ">
-                                Languages:
-                                <% details.languages.forEach(function(language) { %>
-                                    <span class="tags"><a class="tag"><%= language.tagName %> <span class="count"><%= language.number %></span></a></span>
-                                <% }); %>
-                            </div>
-        
-                            <div class="tag-container field-name ">
-                                Categories:
-                                <% details.categories.forEach(function(category) { %>
-                                    <span class="tags"><a class="tag"><%= category.tagName %> <span class="count"><%= category.number %></span></a></span>
-                                <% }); %>
-                            </div>
+                            <% detailkeys.forEach(function(key) { %>
+                                <div class="tag-container field-name">
+                                    <% if(details[key] != undefined) { %>
+                                        <%= key.toProperCase() %>:
+                                        <% details[key].forEach(function(tag) { %>
+                                            <span class="tags"><a class="tag"><%= tag.tagName %> <span class="count"><%= tag.number %></span></a>
+                                        <% }); %>
+                                    <% }; %>
+                                </div>
+                            <% }); %>
                         </section>
                         <div><%= thumbnails.length %> pages</div>
+                        <div>Uploaded <time id="datetime" datetime="<%= uploadDate %>"><%= moment(new Date(uploadDate)).fromNow() %></time></div>
+                        <script> 
+                            var d = new Date($("#datetime")[0].getAttribute("datetime"));
+                            setInterval(function(){
+                                $("#datetime")[0].innerHTML = moment(d).fromNow();
+                            }, 60000)
+                        </script>
                     </div>
                 </div>
             </div>
@@ -86,6 +56,21 @@
                     </div>
                 <% }); %>
             </div>
+
+            <div class="container" id="related-container">
+                <h2>More Like This</h2>
+                <% suggestions.forEach(function(book) { %>
+                    <div class="gallery" data-tags="<%= book.datatag %>">
+                        <a href="/i/<%= book.bookId %>/" class="cover" style="padding:0 0 <%= book.thumbnailAspectRatio %>% 0">
+                            <img class="lozad" data-src="<%= book.thumbnail %>">
+                            <div class="caption">
+                                    <%= book.title %>
+                            </div>
+                        </a>
+                    </div>
+                <% }); %>
+            </div>
+
             <% include ../partials/lozadinit.ejs %>
         </div>
     </div>

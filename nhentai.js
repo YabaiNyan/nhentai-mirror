@@ -9,8 +9,14 @@ const hrefToPage = /(&||\?)page=(\d+)/
 const doubleSlashToHttps = /(https:)?(\/\/)/
 const styleToAspectRatio = /padding:0 0 (.*)% 0/
 const resultsToInt = /(.*) Results/i
+const tabTitleRegex = /(.*) » nhentai: hentai doujinshi and manga/
 
 const sorts = ['popular', 'date']
+const languagesDataTagPairs = {
+    '6346': 'japanese',
+    '12227': 'english',
+    '29963': 'chinese'
+}
 
 class nHentai {
     static getDoujin(nhentai) {
@@ -24,8 +30,48 @@ class nHentai {
                     $('.tag-container.field-name').text().split('\n').map(string => string.trim()).filter(u => u).map((tag, i, tags) => {
                         if (tag.endsWith(':') && !tags[i + 1].endsWith(':')) { details[tag.substring(0, tag.length - 1).toLowerCase()] = tags[i + 1].replace(tagSpacerPatternn, '$1 $2').split(tagSplitPattern) }
                     })
+                    const tabTitle = $('title').text().replace(tabTitleRegex, '$1')
                     const title = $('#info').find('h1').text()
                     const nativeTitle = $('#info').find('h2').text()
+                    let uploadDate = null;
+                    for(var key in $('#info').find('div')){
+                        let children = $('#info').find('div')[key].children
+                        if(children != undefined && typeof(children) == 'object'){
+                            for(var child of children){
+                                if(child.name != undefined){
+                                    if(child.name == "time"){
+                                        uploadDate = child.attribs.datetime
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    let suggestions = []
+                    let selector = $('.gallery').children('a')
+                    Object.keys(selector).map((key) => {
+                        if (!isNaN(key)) {
+                            let bookdetails = {}
+                            let datatagArr = selector[key].parent.attribs['data-tags'].split(" ");
+                            let languages = [];
+                            let book = selector[key]
+                            let img = findObject(book.children, 'name', 'img')
+                            bookdetails.bookId = book.attribs.href.replace(gToId, '$1')
+                            bookdetails.thumbnailAspectRatio = book.attribs.style.replace(styleToAspectRatio, '$1')
+                            if("is" in img.attribs){
+                                bookdetails.thumbnail = img.attribs['data-src']
+                            }else{
+                                bookdetails.thumbnail = img.attribs['src'].replace(doubleSlashToHttps, 'https://')
+                            }
+                            datatagArr.forEach((datatag) => {
+                                if(datatag in languagesDataTagPairs){
+                                    languages.push(languagesDataTagPairs[datatag])
+                                }
+                            });
+                            bookdetails.languages = languages;
+                            bookdetails.title = findObject(book.children, 'name', 'div').children[0].data
+                            suggestions.push(bookdetails)
+                        }
+                    })
                     const thumbnails = Object.entries($('.gallerythumb').find('img')).map(image => {
                         return image[1].attribs
                             ? image[1].attribs['data-src']
@@ -37,7 +83,7 @@ class nHentai {
                             : null
                     }).filter(link => link)
                     const link = `https://nhentai.net/g/${id}/`
-                    resolve({ title, nativeTitle, details, pages: images, thumbnails, link })
+                    resolve({ title, nativeTitle, tabTitle, details, pages: images, thumbnails, uploadDate, suggestions, link })
                 })
                 .catch(reject)
         })
@@ -59,6 +105,8 @@ class nHentai {
                     Object.keys(selector).map((key) => {
                         if (!isNaN(key)) {
                             let bookdetails = {}
+                            let datatagArr = selector[key].parent.attribs['data-tags'].split(" ");
+                            let languages = [];
                             let book = selector[key]
                             let img = findObject(book.children, 'name', 'img')
                             bookdetails.bookId = book.attribs.href.replace(gToId, '$1')
@@ -68,6 +116,12 @@ class nHentai {
                             }else{
                                 bookdetails.thumbnail = img.attribs['src'].replace(doubleSlashToHttps, 'https://')
                             }
+                            datatagArr.forEach((datatag) => {
+                                if(datatag in languagesDataTagPairs){
+                                    languages.push(languagesDataTagPairs[datatag])
+                                }
+                            });
+                            bookdetails.languages = languages;
                             bookdetails.title = findObject(book.children, 'name', 'div').children[0].data
                             details.push(bookdetails)
                         }
@@ -114,6 +168,8 @@ class nHentai {
                     Object.keys(selector).map((key) => {
                         if (!isNaN(key)) {
                             let bookdetails = {}
+                            let datatagArr = selector[key].parent.attribs['data-tags'].split(" ");
+                            let languages = [];
                             let book = selector[key]
                             let img = findObject(book.children, 'name', 'img')
                             bookdetails.bookId = book.attribs.href.replace(gToId, '$1')
@@ -123,6 +179,12 @@ class nHentai {
                             }else{
                                 bookdetails.thumbnail = img.attribs['src'].replace(doubleSlashToHttps, 'https://')
                             }
+                            datatagArr.forEach((datatag) => {
+                                if(datatag in languagesDataTagPairs){
+                                    languages.push(languagesDataTagPairs[datatag])
+                                }
+                            });
+                            bookdetails.languages = languages;
                             bookdetails.title = findObject(book.children, 'name', 'div').children[0].data
                             details.push(bookdetails)
                         }

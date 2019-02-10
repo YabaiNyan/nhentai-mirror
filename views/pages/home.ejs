@@ -13,7 +13,7 @@
     <div id="content">
         <div class="index-container container">
             <% results.forEach(function(book) { %>
-                <div class="gallery">
+                <div class="gallery" data-tags="<%= book.datatag %>">
                     <a href="/i/<%= book.bookId %>/" class="cover" style="padding:0 0 <%= book.thumbnailAspectRatio %>% 0">
                         <img class="lozad" data-src="<%= book.thumbnail %>">
                         <div class="caption">

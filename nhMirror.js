@@ -15,9 +15,24 @@ var app = express()
 // set the view engine to ejs
 app.set('view engine', 'ejs');
 
+// require moment
+var moment = require('moment')
+
+// propercase lol
+String.prototype.toProperCase = function () {
+    return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+};
 
 // handle search page requests
 const sorts = ['popular', 'date']
+
+// converting languages to data-tags
+const datatagLanguagePairs = {
+    'japanese': '6346',
+    'english': '12227',
+    'chinese': '29963'
+}
+
 
 var searchHandler = function(req, res) {
     if(req.params.sort == undefined){
@@ -65,6 +80,19 @@ var searchHandler = function(req, res) {
                     break
                 }
             }
+            homeObj.results.forEach((book, i) => {
+                if(book.languages.length > 0){
+                    var datatagArr = []
+                    book.languages.forEach((language) => {
+                        if(language in datatagLanguagePairs){
+                            datatagArr.push(datatagLanguagePairs[language])
+                        }
+                    })
+                    homeObj.results[i].datatag=datatagArr.join(" ")
+                }else{
+                    homeObj.results[i].datatag=""
+                }
+            });
             homeObj.nextPage = page - -1
             homeObj.currentPage = parseInt(page)
             homeObj.prevPage = page - 1
@@ -117,6 +145,19 @@ var homeHandler = function(req, res) {
                     break
                 }
             }
+            homeObj.results.forEach((book, i) => {
+                if(book.languages.length > 0){
+                    var datatagArr = []
+                    book.languages.forEach((language) => {
+                        if(language in datatagLanguagePairs){
+                            datatagArr.push(datatagLanguagePairs[language])
+                        }
+                    })
+                    homeObj.results[i].datatag=datatagArr.join(" ")
+                }else{
+                    homeObj.results[i].datatag=""
+                }
+            });
             homeObj.nextPage = page - -1
             homeObj.currentPage = parseInt(page)
             homeObj.prevPage = page - 1
@@ -144,6 +185,13 @@ var infoHandler = function(req, res) {
                     bookObj.details[key][i] = {tagName, number}
                 });
             }
+            var detailkeys = []
+            for (var key in bookObj.details) {
+                detailkeys.push(key)
+            }
+            console.log(bookObj)
+            bookObj.moment = moment
+            bookObj.detailkeys = detailkeys
             bookObj.queryRaw = ""
             bookObj.bookId = req.params.bookId
             bookObj.mainThumbnail = bookObj.thumbnails[0].replace().replace('1t.jpg', 'cover.jpg')
@@ -174,6 +222,12 @@ var viewerHandler = function(req, res) {
     }
 }
 
+var handleFavicon = function(req, res) {
+    res.download('./static/favicon.ico', 'favicon.ico');
+}
+
+// no favicon
+app.get('/favicon.ico', handleFavicon)
 
 // respond to home pages
 app.get('/', homeHandler)
