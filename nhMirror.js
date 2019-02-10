@@ -189,7 +189,19 @@ var infoHandler = function(req, res) {
             for (var key in bookObj.details) {
                 detailkeys.push(key)
             }
-            console.log(bookObj)
+            bookObj.suggestions.forEach((book, i) => {
+                if(book.languages.length > 0){
+                    var datatagArr = []
+                    book.languages.forEach((language) => {
+                        if(language in datatagLanguagePairs){
+                            datatagArr.push(datatagLanguagePairs[language])
+                        }
+                    })
+                    bookObj.suggestions[i].datatag=datatagArr.join(" ")
+                }else{
+                    bookObj.suggestions[i].datatag=""
+                }
+            });
             bookObj.moment = moment
             bookObj.detailkeys = detailkeys
             bookObj.queryRaw = ""
