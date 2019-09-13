@@ -1,15 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <% include ../partials/head.ejs %>
     <% include ../partials/lozad.ejs %>
     <% include ../partials/viewercss.ejs %>
-    <title><%= title %></title>
+    <title>
+        <%= title %>
+    </title>
+    <% if(pageExists) { %>
+    <script>
+        function callbackaa(el){console.log(el)}
+        $(document).ready(function () {
+            // Handler for .ready() called.
+            console.log("ready")
+            $('html, body').animate({
+                scrollTop: $('#<%= page %>').offset().top
+            }, 'slow');
+        });
+    </script>
+    <% }; %>
 </head>
+
 <body>
-    <% pages.forEach(function(page) { %>
-        <img class="lozad" data-src="<%= page %>">
+    <% pages.forEach(function(page, i) { %>
+        <img class="lozad" data-src="<%= page.url %>" id="<%= i + 1 %>" onload="callbackaa(this)" style="width: var(--widthscaling); height: calc(var(--widthscaling) / <%= page.width %> * <%= page.height %>)">
     <% }); %>
     <% include ../partials/lozadinit.ejs %>
 </body>
+
 </html>

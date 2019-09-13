@@ -14,7 +14,7 @@
     <div id="content">
         <div class="container" id="bigcontainer">
             <div id="cover">
-                <a href="/g/<%= bookId %>/1/">
+                <a href="/g/<%= bookId %>/1">
                     <img class="lozad" width="350" height="483" data-src="<%= mainThumbnail %>"><noscript><img src="<%= mainThumbnail %>" width="350" height="483" /></noscript>
                 </a>
             </div>
@@ -50,7 +50,7 @@
             <div class="container" id="thumbnail-container">
                 <% thumbnails.forEach(function(thumbnail, i) { %>
                     <div class="thumb-container">
-                        <a class="gallerythumb" href="/g/<%= bookId %>/<%= i + 1 %>/" rel="nofollow">
+                        <a class="gallerythumb" href="/g/<%= bookId %>/<%= i + 1 %>" rel="nofollow">
                             <img class="lozad" width="200" height="276" data-src="<%= thumbnail %>"><noscript><img src="<%= thumbnail %>" width="200" height="276" /></noscript>
                         </a>
                     </div>
