@@ -18,6 +18,9 @@ app.set('view engine', 'ejs');
 // require moment
 var moment = require('moment')
 
+// require image size prober
+var probe = require('probe-image-size');
+
 // propercase lol
 String.prototype.toProperCase = function () {
     return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
@@ -221,10 +224,23 @@ var viewerHandler = function(req, res) {
     var bookId = req.params.bookId
     if (!isNaN(bookId)) {
         nhentai.getDoujin(bookId)
-            .then((nhObj) => {
+            .then(async (nhObj) => {
+                const probePromise = await Promise.all(
+                    nhObj.pages.map(async page => {
+                        var pageObj = {url: page}
+                        const result = await probe(page);
+                        pageObj.width = result.width
+                        pageObj.height = result.height
+                        return pageObj
+                    })    
+                );
+                nhObj.pages = probePromise;
+                nhObj.pageExists = req.params.page != undefined
+                nhObj.page = req.params.page
                 res.render('pages/nvssviewer', nhObj);
             })
-            .catch(() => {
+            .catch((err) => {
+                console.log(err)
                 res.status(404)
                     .send("404 not found")
             })
