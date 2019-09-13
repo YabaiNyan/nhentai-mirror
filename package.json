@@ -22,6 +22,7 @@
     "express": "^4.16.4",
     "moment": "^2.24.0",
     "nhentai-js": "^2.0.0",
+    "probe-image-size": "^4.1.1",
     "superagent": "^4.1.0"
   }
 }
