@@ -79,7 +79,7 @@ class nHentai {
                     }).filter(link => link)
                     const images = Object.entries($('.gallerythumb').find('img')).map(image => {
                         return image[1].attribs
-                            ? image[1].attribs['data-src'].replace(/t(\.(jpg|png))/, '$1').replace('t.nhentai', 'i.nhentai')
+                        ? image[1].attribs['data-src'].replace(/t(\.(jpg|png|gif))/, '$1').replace('t.nhentai', 'i.nhentai')
                             : null
                     }).filter(link => link)
                     const link = `https://nhentai.net/g/${id}/`
