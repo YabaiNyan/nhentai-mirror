@@ -225,16 +225,6 @@ var viewerHandler = function(req, res) {
     if (!isNaN(bookId)) {
         nhentai.getDoujin(bookId)
             .then(async (nhObj) => {
-                const probePromise = await Promise.all(
-                    nhObj.pages.map(async page => {
-                        var pageObj = {url: page}
-                        const result = await probe(page);
-                        pageObj.width = result.width
-                        pageObj.height = result.height
-                        return pageObj
-                    })    
-                );
-                nhObj.pages = probePromise;
                 nhObj.pageExists = req.params.page != undefined
                 nhObj.page = req.params.page
                 res.render('pages/nvssviewer', nhObj);

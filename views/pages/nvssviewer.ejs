@@ -24,7 +24,7 @@
 
 <body>
     <% pages.forEach(function(page, i) { %>
-        <img class="lozad" data-src="<%= page.url %>" id="<%= i + 1 %>" onload="callbackaa(this)" style="width: var(--widthscaling); height: calc(var(--widthscaling) / <%= page.width %> * <%= page.height %>)">
+        <img class="lozad" data-src="<%= page %>" id="<%= i + 1 %>" onload="callbackaa(this)">
     <% }); %>
     <% include ../partials/lozadinit.ejs %>
 </body>
